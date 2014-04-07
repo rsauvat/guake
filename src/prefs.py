@@ -183,6 +183,30 @@ class PrefsCallbacks(object):
         val = hscale.get_value()
         self.client.set_int(KEY('/general/window_height'), int(val))
 
+    def on_window_width_value_changed(self, hscale):
+        """Changes the value of window_width in gconf
+        """
+        val = hscale.get_value()
+        self.client.set_int(KEY('/general/window_width'), int(val))
+
+    def on_window_halignment_changed(self, cbox):
+        """Changes the value of window_halignment in gconf
+        """
+        val = cbox.get_active()
+        self.client.set_int(KEY('/general/window_halignment'), int(val))
+
+    def on_window_valignment_changed(self, cbox):
+        """Changes the value of window_valignment in gconf
+        """
+        val = cbox.get_active()
+        self.client.set_int(KEY('/general/window_valignment'), int(val))
+
+    def on_monitor_value_changed(self, spin):
+        """Changes the value of monitor in gconf
+        """
+        val = spin.get_value_as_int()
+        self.client.set_int(KEY('/general/monitor'), int(val))
+
     def on_prompt_on_quit_toggled(self, chk):
         """Set the `prompt on quit' property in gconf
         """
@@ -486,6 +510,27 @@ class PrefsDialog(SimpleGladeApp):
         # start fullscreen
         value = self.client.get_bool(KEY('/general/start_fullscreen'))
         self.get_widget('start_fullscreen').set_active(value)
+
+        # height
+        value = self.client.get_int(KEY('/general/window_height'))
+        self.get_widget('window_height').set_value(value)
+
+        # width
+        value = self.client.get_int(KEY('/general/window_width'))
+        self.get_widget('window_width').set_value(value)
+
+        # halignment
+        value = self.client.get_int(KEY('/general/window_halignment'))
+        self.get_widget('window_halignment').set_active(value)
+
+        # valignment
+        value = self.client.get_int(KEY('/general/window_valignment'))
+        self.get_widget('window_valignment').set_active(value)
+
+        # monitor
+        value = self.client.get_int(KEY('/general/monitor'))
+        self.get_widget('monitor').set_value(value)
+        self.get_widget('monitor').set_range(0, gtk.gdk.Screen().get_n_monitors()-1)
 
         # scrollbar
         value = self.client.get_bool(KEY('/general/use_scrollbar'))
